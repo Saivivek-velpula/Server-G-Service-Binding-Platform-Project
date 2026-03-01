@@ -35,3 +35,17 @@ Users can browse and request services, while providers can register and manage t
 ---
 
 ## 📂 Project Structure
+
+Server-G/
+│
+├── frontend/
+│ ├── index.html
+│ ├── style.css
+│ └── script.js
+│
+├── backend/
+│ ├── server.js
+│ └── routes/
+│
+├── database/
+└── README.md
