@@ -50,3 +50,29 @@ Server-G/
 ├── database/
 └── README.md
 ```
+
+
+---
+
+## 🎯 Project Goals
+
+- Build a complete full-stack application  
+- Practice frontend–backend integration  
+- Implement authentication and CRUD operations  
+- Learn real-world project structuring  
+- Improve problem-solving and debugging skills  
+
+---
+
+## 📌 Future Improvements
+
+- 💳 Payment Integration  
+- 💬 Real-time Chat  
+- 🛠 Admin Dashboard  
+- ⭐ Rating & Review System  
+- 🚀 Deployment (Render / Vercel / Railway)  
+- 🔐 JWT Authentication  
+- 🧩 Role-Based Access Control  
+
+---
+
