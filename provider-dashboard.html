@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider Dashboard | ServerG</title>
+  <meta name="description" content="Manage your services, accept customer requests, track statistics, and update your provider profile on ServerG.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-layout">
+    <!-- ==========================================
+         SIDEBAR NAVIGATION
+         ========================================== -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <a href="index.html" class="logo">
+          <i data-lucide="wrench"></i>
+          <span>ServerG</span>
+        </a>
+        <button id="sidebar-close-btn" class="sidebar-close-mobile" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-group-label">Menu</div>
+        <ul>
+          <li>
+            <a href="#" class="sidebar-item active" data-section="overview-section">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sidebar-item" data-section="services-section">
+              <i data-lucide="briefcase"></i>
+              <span>My Services</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sidebar-item" data-section="requests-section">
+              <i data-lucide="inbox"></i>
+              <span>Service Requests</span>
+              <span class="badge badge-accent sidebar-badge" id="sidebar-pending-badge" style="display: none;">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sidebar-item" data-section="profile-section">
+              <i data-lucide="user"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sidebar-item" data-section="settings-section">
+              <i data-lucide="settings"></i>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button onclick="logoutUser()" class="sidebar-logout-btn">
+          <i data-lucide="log-out"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Overlay backdrop for mobile sidebar drawer -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ==========================================
+         MAIN CONTENT AREA
+         ========================================== -->
+    <div class="app-main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="app-top-header">
+        <div class="header-left">
+          <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-label="Toggle Navigation">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="header-search-bar">
+            <i data-lucide="search"></i>
+            <input type="text" id="global-header-search" placeholder="Search services or requests...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="header-icon-btn" aria-label="Notifications" id="notification-btn" title="Notifications">
+            <i data-lucide="bell"></i>
+            <span class="notification-indicator"></span>
+          </button>
+          <div class="header-user-profile" id="header-user-profile">
+            <img id="header-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80" alt="Provider Avatar" class="header-avatar">
+            <div class="header-user-info">
+              <span id="header-user-name" class="user-name">Sai Vivek</span>
+              <span class="user-role">Service Provider</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT SECTIONS -->
+      <main class="app-main-content">
+
+        <!-- ==========================================
+             SECTION 1: DASHBOARD OVERVIEW
+             ========================================== -->
+        <section class="dashboard-section active" id="overview-section">
+          <!-- Welcome Card -->
+          <div class="welcome-banner mb-4">
+            <div>
+              <h1 id="overview-welcome-heading">Welcome back, Sai Vivek 👋</h1>
+              <p>Manage your services and respond to customer requests.</p>
+            </div>
+            <button id="overview-add-service-btn" class="btn btn-primary btn-sm">
+              <i data-lucide="plus"></i> + Add Service
+            </button>
+          </div>
+
+          <!-- Statistics Cards Grid -->
+          <div class="stats-row mb-5">
+            <!-- Total Services Card -->
+            <div class="stat-card">
+              <div class="stat-icon stat-icon-primary">
+                <i data-lucide="briefcase"></i>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Total Services</span>
+                <h3 class="stat-value" id="stat-total-services">0</h3>
+                <span class="stat-trend up"><i data-lucide="trending-up"></i> Active offerings</span>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card -->
+            <div class="stat-card">
+              <div class="stat-icon stat-icon-warning">
+                <i data-lucide="clock"></i>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Pending Requests</span>
+                <h3 class="stat-value" id="stat-pending-requests">0</h3>
+                <span class="stat-trend neutral"><i data-lucide="alert-circle"></i> Requires action</span>
+              </div>
+            </div>
+
+            <!-- Accepted Requests Card -->
+            <div class="stat-card">
+              <div class="stat-icon stat-icon-info">
+                <i data-lucide="check-square"></i>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Accepted Requests</span>
+                <h3 class="stat-value" id="stat-accepted-requests">0</h3>
+                <span class="stat-trend up"><i data-lucide="trending-up"></i> Confirmed jobs</span>
+              </div>
+            </div>
+
+            <!-- Completed Jobs Card -->
+            <div class="stat-card">
+              <div class="stat-icon stat-icon-success">
+                <i data-lucide="award"></i>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Completed Jobs</span>
+                <h3 class="stat-value" id="stat-completed-jobs">0</h3>
+                <span class="stat-trend up"><i data-lucide="check-circle2"></i> High fulfillment</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overview Grid split -->
+          <div class="overview-grid">
+            <!-- Recent Requests Widget -->
+            <div class="dashboard-card">
+              <div class="card-header-flex">
+                <h3>Recent Incoming Requests</h3>
+                <a href="#" class="view-all-link" data-switch-section="requests-section">View All</a>
+              </div>
+              <div id="overview-recent-requests-list">
+                <!-- Dynamic request previews -->
+              </div>
+            </div>
+
+            <!-- Active Offerings Widget -->
+            <div class="dashboard-card">
+              <div class="card-header-flex">
+                <h3>My Services Summary</h3>
+                <a href="#" class="view-all-link" data-switch-section="services-section">Manage</a>
+              </div>
+              <div id="overview-services-summary-list">
+                <!-- Dynamic service summaries -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================
+             SECTION 2: MY SERVICES
+             ========================================== -->
+        <section class="dashboard-section" id="services-section">
+          <div class="section-top-bar mb-4">
+            <div>
+              <h2>My Services</h2>
+              <p class="text-muted">Manage your active service listings, update pricing, or publish new offerings.</p>
+            </div>
+            <button id="add-service-main-btn" class="btn btn-primary">
+              <i data-lucide="plus"></i> + Add Service
+            </button>
+          </div>
+
+          <!-- Services List Grid -->
+          <div class="providers-grid" id="services-container">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Services Empty State -->
+          <div class="empty-state" id="services-empty-state" style="display: none;">
+            <i data-lucide="briefcase"></i>
+            <h3>No Services Offered</h3>
+            <p>You haven't created any service offerings yet. Click below to add your first service.</p>
+            <button id="empty-add-service-btn" class="btn btn-primary" style="margin-top: 1rem;">
+              <i data-lucide="plus"></i> + Add Service
+            </button>
+          </div>
+        </section>
+
+
+        <!-- ==========================================
+             SECTION 3: SERVICE REQUESTS
+             ========================================== -->
+        <section class="dashboard-section" id="requests-section">
+          <div class="section-top-bar mb-4">
+            <div>
+              <h2>Service Requests</h2>
+              <p class="text-muted">Review incoming customer requests, respond promptly, and manage booking statuses.</p>
+            </div>
+          </div>
+
+          <!-- Filter & Search Controls Bar -->
+          <div class="requests-filter-bar mb-4">
+            <div class="filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="requests-search-input" placeholder="Search customer or service...">
+            </div>
+
+            <div class="filter-pills" id="requests-filter-pills">
+              <button class="filter-pill active" data-filter="all">All</button>
+              <button class="filter-pill" data-filter="pending">Pending</button>
+              <button class="filter-pill" data-filter="accepted">Accepted</button>
+              <button class="filter-pill" data-filter="rejected">Rejected</button>
+              <button class="filter-pill" data-filter="completed">Completed</button>
+            </div>
+          </div>
+
+          <!-- Requests Container -->
+          <div class="requests-grid" id="requests-container">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Requests Empty State -->
+          <div class="empty-state" id="requests-empty-state" style="display: none;">
+            <i data-lucide="inbox"></i>
+            <h3 id="empty-requests-title">No Requests Found</h3>
+            <p id="empty-requests-desc">There are no customer service requests matching your active filter.</p>
+          </div>
+        </section>
+
+
+        <!-- ==========================================
+             SECTION 4: PROVIDER PROFILE
+             ========================================== -->
+        <section class="dashboard-section" id="profile-section">
+          <div class="section-top-bar mb-4">
+            <div>
+              <h2>Provider Profile</h2>
+              <p class="text-muted">Manage your public professional profile, credentials, and contact details.</p>
+            </div>
+            <button id="edit-profile-btn" class="btn btn-secondary">
+              <i data-lucide="edit-3"></i> Edit Profile
+            </button>
+          </div>
+
+          <!-- Profile Header Card -->
+          <div class="profile-hero-card mb-4">
+            <img id="profile-avatar-display" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80" alt="Provider Avatar" class="profile-hero-avatar">
+            <div class="profile-hero-info">
+              <div class="flex align-center gap-1">
+                <h2 id="profile-name-display" style="font-size: 1.5rem; font-weight: 800; color: var(--slate-900);">Sai Vivek</h2>
+                <span class="badge badge-primary"><i data-lucide="shield-check" style="width: 12px; height: 12px;"></i> Verified Provider</span>
+              </div>
+              <p id="profile-category-display" class="text-muted" style="font-weight: 600; margin-top: 0.25rem;">Electrician &amp; Smart Home Services</p>
+
+              <div class="profile-stats-meta mt-3 flex gap-4" style="gap: 1.5rem;">
+                <div class="meta-stat-item">
+                  <i data-lucide="map-pin"></i>
+                  <span id="profile-location-display">Guntur</span>
+                </div>
+                <div class="meta-stat-item">
+                  <i data-lucide="star" style="fill: var(--accent); color: var(--accent);"></i>
+                  <span id="profile-rating-display">4.9 (48 reviews)</span>
+                </div>
+                <div class="meta-stat-item">
+                  <i data-lucide="award"></i>
+                  <span id="profile-jobs-display">24 Completed Jobs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Details Grid -->
+          <div class="details-grid-info">
+            <!-- Personal Info Card -->
+            <div class="details-block">
+              <h2>Personal Information</h2>
+              <ul class="info-list" style="margin-top: 1rem;">
+                <li>
+                  <span class="info-list-label">Full Name:</span>
+                  <span class="info-list-value" id="info-full-name">Sai Vivek</span>
+                </li>
+                <li>
+                  <span class="info-list-label">Email Address:</span>
+                  <span class="info-list-value" id="info-email">provider@example.com</span>
+                </li>
+                <li>
+                  <span class="info-list-label">Phone Number:</span>
+                  <span class="info-list-value" id="info-phone">+91 98765 43210</span>
+                </li>
+                <li>
+                  <span class="info-list-label">Primary Location:</span>
+                  <span class="info-list-value" id="info-location">Guntur</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Professional Info Card -->
+            <div class="details-block">
+              <h2>Professional Details</h2>
+              <ul class="info-list" style="margin-top: 1rem;">
+                <li>
+                  <span class="info-list-label">Business Name:</span>
+                  <span class="info-list-value" id="info-business-name">Kumar Electrical Services</span>
+                </li>
+                <li>
+                  <span class="info-list-label">Experience:</span>
+                  <span class="info-list-value" id="info-experience">5 years</span>
+                </li>
+                <li>
+                  <span class="info-list-label">Service Area:</span>
+                  <span class="info-list-value" id="info-service-area">Guntur &amp; Surrounding Areas</span>
+                </li>
+                <li>
+                  <span class="info-list-label">About Bio:</span>
+                  <span class="info-list-value" id="info-about" style="line-height: 1.5; font-size: 0.9rem;">Professional electrical repair and installation services with guaranteed safety.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================
+             SECTION 5: SETTINGS
+             ========================================== -->
+        <section class="dashboard-section" id="settings-section">
+          <div class="section-top-bar mb-4">
+            <div>
+              <h2>Account Settings</h2>
+              <p class="text-muted">Configure notification preferences and security settings.</p>
+            </div>
+          </div>
+
+          <div class="details-block" style="max-width: 650px;">
+            <h2 class="mb-3">Preferences</h2>
+            <div class="setting-item flex justify-between align-center py-3" style="border-bottom: 1px solid var(--slate-100); padding: 1rem 0;">
+              <div>
+                <h4 style="font-weight: 600;">Email Notifications</h4>
+                <p class="text-muted" style="font-size: 0.85rem;">Receive email alerts whenever a customer books a new service.</p>
+              </div>
+              <input type="checkbox" checked style="accent-color: var(--primary); width: 1.2rem; height: 1.2rem;">
+            </div>
+
+            <div class="setting-item flex justify-between align-center py-3" style="border-bottom: 1px solid var(--slate-100); padding: 1rem 0;">
+              <div>
+                <h4 style="font-weight: 600;">Instant SMS Alerts</h4>
+                <p class="text-muted" style="font-size: 0.85rem;">Get immediate SMS messages for urgent booking requests.</p>
+              </div>
+              <input type="checkbox" checked style="accent-color: var(--primary); width: 1.2rem; height: 1.2rem;">
+            </div>
+
+            <div class="setting-item flex justify-between align-center py-3" style="padding: 1rem 0;">
+              <div>
+                <h4 style="font-weight: 600;">Public Availability Status</h4>
+                <p class="text-muted" style="font-size: 0.85rem;">Show your profile as active and accepting new requests.</p>
+              </div>
+              <input type="checkbox" checked style="accent-color: var(--primary); width: 1.2rem; height: 1.2rem;">
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 1: ADD / EDIT SERVICE MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="service-form-modal">
+    <div class="modal-card" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3 id="service-modal-title">Add New Service</h3>
+        <button class="modal-close-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="service-modal-form" class="modal-form" novalidate>
+        <input type="hidden" id="service-id-hidden">
+
+        <div class="form-group mb-3">
+          <label for="modal-service-title" class="form-label">Service Title *</label>
+          <input type="text" id="modal-service-title" class="filter-control" placeholder="e.g. Electrical Repair" required>
+          <div class="error-msg" id="service-title-error"></div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="modal-service-category" class="form-label">Category *</label>
+          <select id="modal-service-category" class="filter-control" required>
+            <option value="">Select Category</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Painter">Painter</option>
+            <option value="AC Technician">AC Technician</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Appliance Repair">Appliance Repair</option>
+            <option value="Tutor">Tutor</option>
+          </select>
+          <div class="error-msg" id="service-category-error"></div>
+        </div>
+
+        <div class="flex gap-1 mb-3" style="gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="modal-service-price" class="form-label">Price (₹) *</label>
+            <input type="number" id="modal-service-price" class="filter-control" placeholder="500" min="1" required>
+            <div class="error-msg" id="service-price-error"></div>
+          </div>
+          <div style="flex: 1;">
+            <label for="modal-service-location" class="form-label">Location *</label>
+            <input type="text" id="modal-service-location" class="filter-control" placeholder="e.g. Guntur" required>
+            <div class="error-msg" id="service-location-error"></div>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="modal-service-availability" class="form-label">Availability</label>
+          <input type="text" id="modal-service-availability" class="filter-control" placeholder="e.g. Mon - Sat (9 AM - 6 PM)">
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="modal-service-desc" class="form-label">Description *</label>
+          <textarea id="modal-service-desc" class="filter-control" rows="3" placeholder="Describe what this service covers..." style="resize: vertical; font-family: inherit;" required></textarea>
+          <div class="error-msg" id="service-desc-error"></div>
+        </div>
+
+        <div class="flex gap-1 mt-4" style="gap: 1rem;">
+          <button type="button" class="btn btn-secondary modal-cancel-btn" style="flex: 1;">Cancel</button>
+          <button type="submit" id="service-submit-btn" class="btn btn-primary" style="flex: 1;">Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 2: DELETE SERVICE CONFIRMATION
+       ========================================== -->
+  <div class="modal-backdrop" id="delete-service-modal">
+    <div class="modal-card" style="max-width: 420px; text-align: center;">
+      <div class="modal-icon-circle danger mb-3" style="margin: 0 auto; width: 3.5rem; height: 3.5rem; border-radius: var(--radius-full); background-color: var(--danger-light); color: var(--danger); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+        <i data-lucide="trash-2"></i>
+      </div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--slate-900);">Delete this service?</h3>
+      <p class="text-muted mb-4" style="font-size: 0.9rem; margin-top: 0.5rem;">This action cannot be undone. The service will be permanently removed from your catalog.</p>
+
+      <div class="flex gap-1" style="gap: 0.75rem;">
+        <button type="button" class="btn btn-secondary modal-cancel-btn" style="flex: 1;">Cancel</button>
+        <button type="button" id="confirm-delete-service-btn" class="btn btn-primary" style="flex: 1; background-color: var(--danger); border-color: var(--danger);">Delete Service</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 3: REJECT REQUEST CONFIRMATION
+       ========================================== -->
+  <div class="modal-backdrop" id="reject-request-modal">
+    <div class="modal-card" style="max-width: 420px; text-align: center;">
+      <div class="modal-icon-circle danger mb-3" style="margin: 0 auto; width: 3.5rem; height: 3.5rem; border-radius: var(--radius-full); background-color: var(--danger-light); color: var(--danger); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+        <i data-lucide="x-circle"></i>
+      </div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--slate-900);">Are you sure you want to reject this request?</h3>
+      <p class="text-muted mb-4" style="font-size: 0.9rem; margin-top: 0.5rem;">The customer will be notified that you are unable to fulfill this request.</p>
+
+      <div class="flex gap-1" style="gap: 0.75rem;">
+        <button type="button" class="btn btn-secondary modal-cancel-btn" style="flex: 1;">Cancel</button>
+        <button type="button" id="confirm-reject-request-btn" class="btn btn-primary" style="flex: 1; background-color: var(--danger); border-color: var(--danger);">Reject Request</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 4: REQUEST DETAILS MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="request-details-modal">
+    <div class="modal-card" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3>Request Details</h3>
+        <button class="modal-close-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body-content" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <!-- Customer summary -->
+        <div class="flex align-center gap-1" style="gap: 1rem; background-color: var(--slate-50); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--slate-200);">
+          <img id="req-modal-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Customer Avatar" style="width: 3.25rem; height: 3.25rem; border-radius: var(--radius-full); object-fit: cover;">
+          <div>
+            <h4 id="req-modal-customer-name" style="font-weight: 700; font-size: 1.05rem;">Rahul Kumar</h4>
+            <span id="req-modal-status-badge" class="badge badge-accent">Pending</span>
+          </div>
+        </div>
+
+        <div class="info-grid-compact" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
+          <div>
+            <span class="text-muted" style="font-size: 0.75rem; display: block;">SERVICE REQUESTED</span>
+            <strong id="req-modal-service-name">Electrical Repair</strong>
+          </div>
+          <div>
+            <span class="text-muted" style="font-size: 0.75rem; display: block;">PRICING</span>
+            <strong id="req-modal-price" style="color: var(--primary);">₹500</strong>
+          </div>
+          <div>
+            <span class="text-muted" style="font-size: 0.75rem; display: block;">REQUEST DATE</span>
+            <span id="req-modal-request-date">25 September 2026</span>
+          </div>
+          <div>
+            <span class="text-muted" style="font-size: 0.75rem; display: block;">PREFERRED DATE</span>
+            <span id="req-modal-preferred-date">28 September 2026</span>
+          </div>
+        </div>
+
+        <div>
+          <span class="text-muted" style="font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">LOCATION</span>
+          <span id="req-modal-location" style="font-size: 0.9rem;"><i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> Guntur</span>
+        </div>
+
+        <div>
+          <span class="text-muted" style="font-size: 0.75rem; display: block; margin-bottom: 0.25rem;">CUSTOMER MESSAGE</span>
+          <div id="req-modal-message" style="background-color: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); font-size: 0.9rem; font-style: italic; color: var(--slate-700); border: 1px solid var(--slate-100);">
+            "Need help with a wiring issue."
+          </div>
+        </div>
+
+        <div id="req-modal-actions-row" class="flex gap-1 mt-2" style="gap: 0.75rem;">
+          <!-- Dynamically populated accept/reject buttons -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       MODAL 5: EDIT PROFILE MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="edit-profile-modal">
+    <div class="modal-card" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3>Edit Provider Profile</h3>
+        <button class="modal-close-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="edit-profile-modal-form" class="modal-form" novalidate>
+        <div class="form-group mb-3">
+          <label for="prof-modal-name" class="form-label">Full Name *</label>
+          <input type="text" id="prof-modal-name" class="filter-control" required>
+        </div>
+
+        <div class="flex gap-1 mb-3" style="gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="prof-modal-email" class="form-label">Email Address *</label>
+            <input type="email" id="prof-modal-email" class="filter-control" required>
+          </div>
+          <div style="flex: 1;">
+            <label for="prof-modal-phone" class="form-label">Phone Number *</label>
+            <input type="tel" id="prof-modal-phone" class="filter-control" required>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="prof-modal-business" class="form-label">Business / Service Name</label>
+          <input type="text" id="prof-modal-business" class="filter-control" placeholder="e.g. Kumar Electrical Services">
+        </div>
+
+        <div class="flex gap-1 mb-3" style="gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="prof-modal-location" class="form-label">Primary Location</label>
+            <input type="text" id="prof-modal-location" class="filter-control" placeholder="e.g. Guntur">
+          </div>
+          <div style="flex: 1;">
+            <label for="prof-modal-experience" class="form-label">Experience</label>
+            <input type="text" id="prof-modal-experience" class="filter-control" placeholder="e.g. 5 years">
+          </div>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="prof-modal-about" class="form-label">About / Bio</label>
+          <textarea id="prof-modal-about" class="filter-control" rows="3" style="resize: vertical; font-family: inherit;"></textarea>
+        </div>
+
+        <div class="flex gap-1" style="gap: 1rem;">
+          <button type="button" class="btn btn-secondary modal-cancel-btn" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

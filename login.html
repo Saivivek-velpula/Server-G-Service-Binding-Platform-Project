@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | ServerG</title>
+  <meta name="description" content="Access your ServerG customer or provider dashboard. Sign in to request services or manage bookings.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION BAR
+       ========================================== -->
+  <header class="header">
+    <div class="container navbar">
+      <a href="index.html" class="logo">
+        <i data-lucide="wrench"></i>
+        <span>ServerG</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Find Services</a>
+        <a href="customer-dashboard.html" class="nav-link">My Bookings</a>
+        <a href="provider-dashboard.html" class="nav-link">Provider Center</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       LOGIN CARD LAYOUT
+       ========================================== -->
+  <main class="auth-wrapper">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p>Login to manage your service requests and bookings.</p>
+        </div>
+        
+        <form id="login-form" class="auth-form" novalidate>
+          <!-- Email Field -->
+          <div class="form-group mb-3">
+            <label for="login-email" class="form-label">Email Address</label>
+            <div class="filter-input-wrapper">
+              <i data-lucide="mail" class="filter-input-icon"></i>
+              <input type="email" id="login-email" class="filter-control" placeholder="name@example.com" required>
+            </div>
+            <div class="error-msg" id="email-error"></div>
+          </div>
+          
+          <!-- Password Field -->
+          <div class="form-group mb-3">
+            <label for="login-password" class="form-label">Password</label>
+            <div class="filter-input-wrapper">
+              <i data-lucide="lock" class="filter-input-icon"></i>
+              <input type="password" id="login-password" class="filter-control" placeholder="••••••••" required>
+            </div>
+            <div class="error-msg" id="password-error"></div>
+          </div>
+          
+          <!-- Secondary Actions Row -->
+          <div class="flex justify-between align-center mb-4" style="font-size: 0.85rem;">
+            <label class="checkbox-item" style="color: var(--slate-600);">
+              <input type="checkbox" id="login-remember">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="text-primary" style="font-weight: 600;" id="forgot-password-link">Forgot password?</a>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Log In
+          </button>
+        </form>
+        
+        <div class="auth-footer text-center" style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--slate-500);">
+          Don't have an account? <a href="register.html" class="text-primary" style="font-weight: 600;">Sign Up</a>
+        </div>
+
+        <!-- Quick Demo Login Access Section -->
+        <div class="demo-auth-box" style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed var(--slate-200); text-align: center;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.75rem;">
+            ⚡ Quick Demo Access (One-Click Testing)
+          </span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <button type="button" onclick="loginDemoUser('customer')" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem; width: 100%;">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i> Demo Customer
+            </button>
+            <button type="button" onclick="loginDemoUser('provider')" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem; width: 100%; border-color: var(--primary-light); color: var(--primary); background-color: var(--primary-light);">
+              <i data-lucide="briefcase" style="width: 14px; height: 14px;"></i> Demo Provider
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top: none; padding-top: 0; justify-content: center;">
+      <div>&copy; 2026 ServerG. All rights reserved. Portfolio Marketplace.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard | ServerG</title>
+  <meta name="description" content="View your active, pending, and completed service bookings on ServerG. Manage your profile and saved service providers.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION BAR
+       ========================================== -->
+  <header class="header">
+    <div class="container navbar">
+      <a href="index.html" class="logo">
+        <i data-lucide="wrench"></i>
+        <span>ServerG</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Find Services</a>
+        <a href="customer-dashboard.html" class="nav-link active">My Bookings</a>
+        <a href="provider-dashboard.html" class="nav-link">Provider Center</a>
+      </nav>
+      
+      <!-- Auth state handled dynamically, fallback buttons in markup -->
+      <div class="nav-actions" id="navbar-auth-actions">
+        <!-- JS replaces this with profile indicators or login buttons -->
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       DASHBOARD CONTENT
+       ========================================== -->
+  <main class="container" style="padding-top: 7rem; padding-bottom: 5rem;">
+    <!-- Welcome Header & Profile Summary -->
+    <div class="dashboard-header flex justify-between align-center mb-5">
+      <div>
+        <h1 id="welcome-heading" style="font-size: 2.25rem; font-weight: 800; color: var(--slate-900);">Welcome Back!</h1>
+        <p class="text-muted">Manage your active service bookings and explore local providers.</p>
+      </div>
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.25rem;">
+        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i> Logout
+      </button>
+    </div>
+
+    <!-- Stats Panel Counter Cards Row -->
+    <section class="stats-row mb-5" id="stats-counter-panel">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-primary"><i data-lucide="calendar"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Total Bookings</span>
+          <h3 class="stat-value" id="stat-total">0</h3>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-warning"><i data-lucide="clock"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Pending Approval</span>
+          <h3 class="stat-value" id="stat-pending">0</h3>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-info"><i data-lucide="check-circle"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Accepted Jobs</span>
+          <h3 class="stat-value" id="stat-accepted">0</h3>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-success"><i data-lucide="award"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Completed Services</span>
+          <h3 class="stat-value" id="stat-completed">0</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Tabs Navigation -->
+    <div class="dashboard-tabs-container mb-4">
+      <div class="tab-list">
+        <button class="tab-btn active" data-tab="bookings-tab">My Bookings</button>
+        <button class="tab-btn" data-tab="saved-tab">Saved Providers</button>
+        <button class="tab-btn" data-tab="profile-tab">Account Details</button>
+      </div>
+    </div>
+
+    <!-- Tab 1: Bookings Grid Container -->
+    <section class="tab-pane active" id="bookings-tab">
+      <div class="flex justify-between align-center mb-3">
+        <h2 style="font-size: 1.25rem; font-weight: 700;">Booking History</h2>
+        <!-- Filters inside Bookings list -->
+        <select id="booking-status-filter" class="sort-control" style="font-size: 0.85rem; padding: 0.4rem 1.5rem 0.4rem 0.5rem;">
+          <option value="all">All Bookings</option>
+          <option value="pending">Pending</option>
+          <option value="accepted">Accepted</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      
+      <!-- Cards list -->
+      <div class="dashboard-grid" id="customer-bookings-grid">
+        <!-- JS dynamically populates items -->
+      </div>
+      
+      <div class="empty-state" id="customer-bookings-empty" style="display: none; padding: 4rem 2rem;">
+        <i data-lucide="calendar-x"></i>
+        <h3>No Booking Requests</h3>
+        <p>You haven't requested any home services yet. Find checked professionals to get started.</p>
+        <a href="services.html" class="btn btn-primary" style="margin-top: 1rem;">Browse Services</a>
+      </div>
+    </section>
+
+    <!-- Tab 2: Saved Service Providers Panel -->
+    <section class="tab-pane" id="saved-tab">
+      <h2 class="mb-3" style="font-size: 1.25rem; font-weight: 700;">My Bookmarked Professionals</h2>
+      <div class="providers-grid" id="saved-providers-grid">
+        <!-- JS dynamically populates saved cards -->
+      </div>
+      <div class="empty-state" id="saved-providers-empty" style="display: none; padding: 4rem 2rem;">
+        <i data-lucide="bookmark-minus"></i>
+        <h3>No Saved Providers</h3>
+        <p>Bookmarked profiles will appear here for easy access. Browse profiles and save them.</p>
+        <a href="services.html" class="btn btn-primary" style="margin-top: 1rem;">Discover Profiles</a>
+      </div>
+    </section>
+
+    <!-- Tab 3: Account Profile Form Panel -->
+    <section class="tab-pane" id="profile-tab">
+      <div class="auth-card" style="max-width: 600px; margin: 0 auto; box-shadow: var(--shadow-sm);">
+        <h2 class="mb-4" style="font-size: 1.25rem; font-weight: 700; border-bottom: 1px solid var(--slate-100); padding-bottom: 0.5rem;">Profile Settings</h2>
+        
+        <form id="customer-profile-form" class="auth-form">
+          <div class="form-group mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="prof-name" class="filter-control" required>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="prof-email" class="filter-control" readonly style="background-color: var(--slate-100); cursor: not-allowed;">
+            <span style="font-size: 0.75rem; color: var(--slate-400); margin-top: 0.2rem;">Email cannot be updated.</span>
+          </div>
+          <div class="form-group mb-4">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" id="prof-phone" class="filter-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Save Profile Changes
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <i data-lucide="wrench"></i>
+          <span>ServerG</span>
+        </a>
+        <p class="footer-desc">ServerG connects local home-service providers with active customers. Discover vetted electricians, plumbers, painters, cleaners, and more.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="services.html" class="footer-link">Find Services</a></li>
+          <li><a href="login.html" class="footer-link">Login</a></li>
+          <li><a href="register.html" class="footer-link">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <ul class="footer-links">
+          <li><a href="#" class="footer-link">Help Center</a></li>
+          <li><a href="#" class="footer-link">Safety Guidelines</a></li>
+          <li><a href="#" class="footer-link">Terms of Service</a></li>
+          <li><a href="#" class="footer-link">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Subscribe to Newsletter</h4>
+        <p class="footer-desc">Get home improvement tips and exclusive discount coupon alerts directly in your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to newsletter successfully!');">
+          <div class="newsletter-input-group">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ServerG. All rights reserved. Made for learning portfolio.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

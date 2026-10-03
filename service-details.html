@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Details | ServerG</title>
+  <meta name="description" content="View service provider profile, description, hourly rates, verified reviews, and book services instantly on ServerG.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION BAR
+       ========================================== -->
+  <header class="header">
+    <div class="container navbar">
+      <a href="index.html" class="logo">
+        <i data-lucide="wrench"></i>
+        <span>ServerG</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Find Services</a>
+        <a href="customer-dashboard.html" class="nav-link">My Bookings</a>
+        <a href="provider-dashboard.html" class="nav-link">Provider Center</a>
+        
+        <div class="nav-actions-mobile" style="display: none;">
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+      </nav>
+      
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       SERVICE DETAILS CONTENT
+       ========================================== -->
+  <main class="container" style="padding-top: 7rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Back navigation link -->
+    <div class="flex align-center justify-between mb-4">
+      <div style="font-size: 0.85rem; color: var(--slate-500);">
+        <a href="index.html">Home</a> &gt; <a href="services.html">Find Services</a> &gt; <span id="breadcrumb-provider-name" style="color: var(--slate-800); font-weight: 500;">Provider Profile</span>
+      </div>
+      <a href="services.html" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.25rem;">
+        <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back to Discovery
+      </a>
+    </div>
+
+    <!-- Outer Details Grid Layout -->
+    <div class="details-layout" id="details-container">
+      <!-- Left Column: Profile details -->
+      <section class="details-main">
+        <!-- Hero Details Header Card -->
+        <div class="details-card-header mb-4">
+          <img id="detail-avatar" src="" alt="Provider Avatar" class="detail-avatar">
+          <div class="detail-header-info">
+            <span id="detail-category-badge" class="badge badge-primary mb-1">Category</span>
+            <h1 id="detail-title" class="mb-1" style="font-size: 2rem; font-weight: 800; color: var(--slate-900);">Service Title</h1>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.5rem; font-size: 0.9rem; color: var(--slate-600);">
+              <div class="meta-item" style="font-weight: 600; color: var(--slate-900);">
+                <span id="detail-provider-name">Provider Name</span>
+              </div>
+              <div class="meta-item">
+                <i data-lucide="star" style="color: var(--accent); fill: var(--accent);"></i>
+                <span id="detail-rating">4.8</span> <span class="text-muted" id="detail-reviews-count">(0 reviews)</span>
+              </div>
+              <div class="meta-item">
+                <i data-lucide="briefcase"></i>
+                <span id="detail-experience">8 Years Exp</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Card -->
+        <div class="details-block mb-4">
+          <h2>About Service &amp; Professional</h2>
+          <p id="detail-description" class="text-muted" style="margin-top: 1rem; font-size: 1rem; line-height: 1.7;">
+            Detailed description of the service and provider credentials will load here.
+          </p>
+        </div>
+
+        <!-- Information details group (Location & Hours) -->
+        <div class="details-grid-info mb-4">
+          <div class="info-card">
+            <i data-lucide="map-pin"></i>
+            <div>
+              <h4>Location Coverage</h4>
+              <p id="detail-location" class="text-muted">Bangalore area coverage</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <i data-lucide="clock"></i>
+            <div>
+              <h4>Service Hours</h4>
+              <p id="detail-availability" class="text-muted">Availability days and timings</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Reviews List -->
+        <div class="details-block">
+          <h2>Verified Customer Reviews</h2>
+          <div id="reviews-list" class="reviews-list" style="margin-top: 1.5rem;">
+            <!-- Dynamic review cards -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Booking Pricing Widget -->
+      <aside class="details-sidebar">
+        <div class="booking-widget">
+          <div class="widget-price">
+            <span class="price-amount" style="font-size: 2.25rem;" id="detail-price">₹000</span>
+            <span class="price-unit" style="font-size: 1rem;">/ hr</span>
+          </div>
+          
+          <div class="widget-inclusions" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+            <div class="inclusion-item">
+              <i data-lucide="check-circle2"></i>
+              <span>Vetted & Background Checked</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check-circle2"></i>
+              <span>Equipped with full toolbox</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check-circle2"></i>
+              <span>100% Satisfaction Guarantee</span>
+            </div>
+          </div>
+          
+          <button id="book-now-btn" class="btn btn-primary btn-lg" style="width: 100%;">
+            Request Service Booking
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Profile Error placeholder (if provider ID is invalid) -->
+    <div id="profile-error" class="empty-state" style="display: none; padding: 6rem 2rem;">
+      <i data-lucide="user-x"></i>
+      <h3>Provider Profile Not Found</h3>
+      <p>We are sorry, but the requested provider profile doesn't exist or is currently unavailable.</p>
+      <a href="services.html" class="btn btn-primary" style="margin-top: 1rem;">Back to Services</a>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       BOOKING MODAL WINDOW
+       ========================================== -->
+  <div class="modal-backdrop" id="booking-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Book Service Request</h3>
+        <button id="modal-close-btn" class="modal-close-icon">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      
+      <form id="booking-form" class="modal-form">
+        <!-- Target Provider Profile Info (read-only helper) -->
+        <div class="booking-form-provider" style="display: flex; align-items: center; gap: 0.75rem; background-color: var(--slate-50); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--slate-100);">
+          <img id="modal-prov-avatar" src="" alt="Provider" style="width: 3rem; height: 3rem; border-radius: var(--radius-full); object-fit: cover;">
+          <div>
+            <h4 id="modal-prov-name" style="font-weight: 700;">Provider Name</h4>
+            <p id="modal-prov-title" style="font-size: 0.8rem; color: var(--slate-500);">Service Title</p>
+          </div>
+        </div>
+        
+        <!-- Date Selection -->
+        <div class="form-group" style="margin-top: 1.25rem;">
+          <label for="booking-date" class="form-label" style="font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Select Date</label>
+          <input type="date" id="booking-date" class="form-input-control" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--slate-200); border-radius: var(--radius-md); background-color: var(--slate-50); outline: none;">
+        </div>
+
+        <!-- Time Selection -->
+        <div class="form-group" style="margin-top: 1.25rem;">
+          <label for="booking-time" class="form-label" style="font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Select Time Slot</label>
+          <select id="booking-time" class="form-input-control" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--slate-200); border-radius: var(--radius-md); background-color: var(--slate-50); outline: none;">
+            <option value="">Choose a slot</option>
+            <option value="09:00 AM">09:00 AM - 11:00 AM</option>
+            <option value="11:00 AM">11:00 AM - 01:00 PM</option>
+            <option value="01:00 PM">01:00 PM - 03:00 PM</option>
+            <option value="03:00 PM">03:00 PM - 05:00 PM</option>
+            <option value="05:00 PM">05:00 PM - 07:00 PM</option>
+          </select>
+        </div>
+
+        <!-- Notes / Special Instructions -->
+        <div class="form-group" style="margin-top: 1.25rem;">
+          <label for="booking-notes" class="form-label" style="font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Service Requirements / Notes</label>
+          <textarea id="booking-notes" class="form-input-control" rows="3" placeholder="Please describe the issue in detail (e.g. leaking sink, smart switch brand...)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--slate-200); border-radius: var(--radius-md); background-color: var(--slate-50); outline: none; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="button" id="booking-cancel-btn" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <i data-lucide="wrench"></i>
+          <span>ServerG</span>
+        </a>
+        <p class="footer-desc">ServerG connects local home-service providers with active customers. Discover vetted electricians, plumbers, painters, cleaners, and more.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="services.html" class="footer-link">Find Services</a></li>
+          <li><a href="login.html" class="footer-link">Login</a></li>
+          <li><a href="register.html" class="footer-link">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <ul class="footer-links">
+          <li><a href="#" class="footer-link">Help Center</a></li>
+          <li><a href="#" class="footer-link">Safety Guidelines</a></li>
+          <li><a href="#" class="footer-link">Terms of Service</a></li>
+          <li><a href="#" class="footer-link">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Subscribe to Newsletter</h4>
+        <p class="footer-desc">Get home improvement tips and exclusive discount coupon alerts directly in your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to newsletter successfully!');">
+          <div class="newsletter-input-group">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ServerG. All rights reserved. Made for learning portfolio.</div>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+        <a href="#" class="social-link" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+        <a href="#" class="social-link" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+        <a href="#" class="social-link" aria-label="Linkedin"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/details.js"></script>
+  <script>
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
